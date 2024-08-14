@@ -86,6 +86,7 @@ export interface MarkdownConfig {
       getDefaultExtension: (locale: string) => string;
     },
   ) => string;
+  outputFileName?: (locale: string, targetFileName: string) => string;
   /**
    * @description All languages that need to be translated
    */

@@ -130,7 +130,9 @@ class TranslateMarkdown {
         }
         for (const locale of config.outputLocales || []) {
           const targetExtension = this.getTargetExtension(locale, file, md);
-          const targetFilename = this.getTargetFilename(file, targetExtension);
+          let targetFilename = this.getTargetFilename(file, targetExtension);
+          if (this.config?.markdown?.outputFileName)
+            targetFilename = this.config.markdown.outputFileName(locale, targetFilename);
           const mode = this.getMode(file, md);
           const { data, content } = matter(md);
           consola.info(`📄 To ${locale}: ${chalk.yellow(targetFilename)}`);
