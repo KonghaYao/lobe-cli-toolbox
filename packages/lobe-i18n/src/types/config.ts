@@ -90,6 +90,7 @@ export interface MarkdownConfig {
       getDefaultExtension: (locale: string) => string;
     },
   ) => string;
+  /** @description Function to change the output folder **/
   outputFileName?: (locale: string, targetFileName: string) => string;
   /**
    * @description All languages that need to be translated

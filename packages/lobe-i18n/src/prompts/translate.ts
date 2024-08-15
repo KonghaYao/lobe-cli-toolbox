@@ -25,14 +25,18 @@ export const promptJsonTranslate = (reference: string = DEFAULT_REFERENCE) => {
 export const promptStringTranslate = (reference: string = DEFAULT_REFERENCE) => {
   return ChatPromptTemplate.fromMessages<{
     from: string;
+    fromPath: string;
     text: string;
     to: string;
+    toPath: string;
   }>([
     [
       'system',
       [
         `Translate the markdown file from {from} to {to} according to the BCP 47 standard`,
         `Here are some reference to help with better translation.  ---${reference}---`,
+        'The original file is located at `{fromPath}`, and the output file will be placed at `{toPath}`.',
+        'Please correct the relative path in the file to the path in the target file.',
         `Make sure the output remains a valid markdown file.`,
       ]
         .filter(Boolean)

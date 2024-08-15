@@ -1,6 +1,7 @@
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { ChatOpenAI } from '@langchain/openai';
 import { alert } from '@lobehub/cli-ui';
+import path from 'node:path';
 
 import { promptJsonTranslate, promptStringTranslate } from '@/prompts/translate';
 import { LocaleObj } from '@/types';
@@ -11,7 +12,13 @@ export class TranslateLocale {
   private config: I18nConfig;
   private isJsonMode: boolean;
   promptJson: ChatPromptTemplate<{ from: string; json: string; to: string }>;
-  promptString: ChatPromptTemplate<{ from: string; text: string; to: string }>;
+  promptString: ChatPromptTemplate<{
+    from: string;
+    fromPath: string;
+    text: string;
+    to: string;
+    toPath: string;
+  }>;
   constructor(config: I18nConfig, openAIApiKey: string, openAIProxyUrl?: string) {
     this.config = config;
     this.model = new ChatOpenAI({
@@ -34,18 +41,24 @@ export class TranslateLocale {
     from,
     to,
     text,
+    fromPath,
+    toPath,
   }: {
     from?: string;
+    fromPath: string;
     text: string;
     to: string;
+    toPath: string;
   }): Promise<string | any> {
     try {
       const formattedChatPrompt = await this.promptString.formatMessages({
         from: from || this.config.entryLocale,
+        fromPath,
         text: text,
         to,
+        toPath: path.relative(process.cwd(), toPath),
       });
-
+      console.log(formattedChatPrompt);
       const res = await this.model.call(formattedChatPrompt);
 
       const result = res['text'];

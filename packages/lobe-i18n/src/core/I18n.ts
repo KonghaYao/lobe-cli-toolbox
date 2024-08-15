@@ -34,6 +34,7 @@ export interface I18nTranslateOptions {
 export interface I18nMarkdownTranslateOptions
   extends Pick<I18nTranslateOptions, 'from' | 'to' | 'onProgress'> {
   filePath: string;
+  filename: string;
   hash: string;
   matter?: any;
   md: string;
@@ -72,16 +73,16 @@ export class I18n {
       : this.translateMarkdownByMdast(options);
   }
 
-  async translateMarkdownByString({
-    md,
-    to,
-    onProgress,
-    from,
-  }: I18nMarkdownTranslateOptions): Promise<{ result: string; tokenUsage: number } | undefined> {
+  async translateMarkdownByString(
+    opt: I18nMarkdownTranslateOptions,
+  ): Promise<{ result: string; tokenUsage: number } | undefined> {
+    const { md, to, onProgress, from } = opt;
     const prompt = await this.translateLocaleService.promptString.formatMessages({
       from,
+      fromPath: opt.filePath,
       text: '',
       to,
+      toPath: opt.filename,
     });
     const splitString = await this.translateMarkdownService.genSplitMarkdown(
       md,
@@ -117,8 +118,10 @@ export class I18n {
         });
         const result = await this.translateLocaleService.runByString({
           from,
+          fromPath: opt.filePath,
           text,
           to,
+          toPath: opt.filename,
         });
         if (this.step < this.maxStep) this.step++;
         return result;
