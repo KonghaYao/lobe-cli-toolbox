@@ -1,9 +1,13 @@
 import { Kv, openKv } from '@deno/kv';
 import crypto from 'node:crypto';
+import fs from 'node:fs';
 
 export class FileHashCache {
   kv: Promise<Kv>;
-  constructor(cacheDB = '.lobe-i18n.db') {
+  constructor(cacheDB = '.i18n/.lobe-i18n.db') {
+    if (!fs.existsSync('./.i18n')) {
+      fs.mkdirSync('./.i18n');
+    }
     this.kv = openKv(cacheDB);
   }
   getHash(fileContent: string) {
