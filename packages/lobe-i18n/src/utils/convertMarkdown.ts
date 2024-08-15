@@ -8,8 +8,7 @@ import { visit } from 'unist-util-visit';
 import { LocaleObj } from '@/types';
 import { checkMdString } from '@/utils/checkMdString';
 
-// @ts-ignore
-export const convertMarkdownToMdast = async (md: string) => {
+export const convertMarkdownToMdast = async (md: string): Promise<any> => {
   // @ts-ignore
   return unified().use(remarkParse).use(remarkGfm).use(remarkFrontmatter).parse(md.trim());
 };
