@@ -1,6 +1,6 @@
 {
   "name": "@lobehub/cli-shebang",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Add shebang to target file",
   "homepage": "https://github.comlobehub/lobe-cli-toolbox/tree/master/packages/cli-shebang",
   "bugs": {
@@ -36,9 +36,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "commander": "^11",
-    "consola": "^3",
-    "update-notifier": "^7"
+    "commander": "^12.1.0",
+    "consola": "^3.2.3",
+    "update-notifier": "^7.2.0"
   },
   "engines": {
     "node": ">=18"
