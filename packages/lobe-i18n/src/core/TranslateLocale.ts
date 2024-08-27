@@ -18,6 +18,7 @@ export class TranslateLocale {
     text: string;
     to: string;
     toPath: string;
+    translateMap: string;
   }>;
   constructor(config: I18nConfig, openAIApiKey: string, openAIProxyUrl?: string) {
     this.config = config;
@@ -51,12 +52,16 @@ export class TranslateLocale {
     toPath: string;
   }): Promise<string | any> {
     try {
+      const translateMap = Object.entries(this.config.translateMap?.[to] ?? {})
+        .map((i) => i.join('|'))
+        .join('\n');
       const formattedChatPrompt = await this.promptString.formatMessages({
         from: from || this.config.entryLocale,
         fromPath,
         text: text,
         to,
         toPath: path.relative(process.cwd(), toPath),
+        translateMap,
       });
       console.log(formattedChatPrompt);
       const res = await this.model.call(formattedChatPrompt);

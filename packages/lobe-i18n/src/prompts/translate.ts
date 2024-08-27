@@ -29,6 +29,7 @@ export const promptStringTranslate = (reference: string = DEFAULT_REFERENCE) => 
     text: string;
     to: string;
     toPath: string;
+    translateMap: string;
   }>([
     [
       'system',
@@ -41,6 +42,10 @@ export const promptStringTranslate = (reference: string = DEFAULT_REFERENCE) => 
       ]
         .filter(Boolean)
         .join('\n'),
+    ],
+    [
+      'system',
+      'Here is the translated text comparison, separated by the | symbol: \n{translateMap}',
     ],
     ['human', '{text}'],
   ]);

@@ -77,12 +77,16 @@ export class I18n {
     opt: I18nMarkdownTranslateOptions,
   ): Promise<{ result: string; tokenUsage: number } | undefined> {
     const { md, to, onProgress, from } = opt;
+    const translateMap = Object.entries(this.config.translateMap?.[to] ?? {})
+      .map((i) => i.join('|'))
+      .join('\n');
     const prompt = await this.translateLocaleService.promptString.formatMessages({
       from,
       fromPath: opt.filePath,
       text: '',
       to,
       toPath: opt.filename,
+      translateMap,
     });
     const splitString = await this.translateMarkdownService.genSplitMarkdown(
       md,

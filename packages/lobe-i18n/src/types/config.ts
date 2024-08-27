@@ -41,6 +41,15 @@ export interface I18nConfigLocale {
    * @description Nucleus sampling threshold
    */
   topP?: number;
+  /**
+   * @description Provide translated key-value pairs to ensure accurate translation.
+   * @example {
+   *    "en-US": {
+   *      "你好": "hello"
+   *    }
+   * }
+   */
+  translateMap?: Record<string, Record<string, string>>;
 }
 
 export enum MarkdownModeType {
