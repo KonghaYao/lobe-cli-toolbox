@@ -2,6 +2,7 @@ import { merge } from 'lodash-es';
 import pMap from 'p-map';
 
 import { TranslateMarkdown } from '@/core/TranslateMarkdown';
+import { CommonRelativePathRegExp, RelativePath } from '@/plugin/RelativePath';
 import { LocaleObj } from '@/types';
 import { I18nConfig, MarkdownModeType } from '@/types/config';
 import { calcToken } from '@/utils/calcToken';
@@ -141,8 +142,12 @@ export class I18n {
       step: this.maxStep,
     });
 
-    const result = await this.translateMarkdownService.genMarkdownByString(translatedSplitString);
-
+    let result = await this.translateMarkdownService.genMarkdownByString(translatedSplitString);
+    result = RelativePath(result, {
+      fromPath: opt.filePath,
+      match: [CommonRelativePathRegExp],
+      toPath: opt.filename,
+    });
     return {
       result,
       tokenUsage: needToken + calcToken(JSON.stringify(translatedSplitString)),
