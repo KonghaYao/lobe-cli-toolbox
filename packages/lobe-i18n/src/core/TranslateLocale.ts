@@ -63,7 +63,7 @@ export class TranslateLocale {
         toPath: path.relative(process.cwd(), toPath),
         translateMap,
       });
-      console.log(formattedChatPrompt);
+      // console.log(formattedChatPrompt);
       const res = await this.model.call(formattedChatPrompt);
 
       const result = res['text'];

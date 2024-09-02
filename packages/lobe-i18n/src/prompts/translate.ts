@@ -46,5 +46,6 @@ export const promptStringTranslate = (reference: string = DEFAULT_REFERENCE) => 
       'Here is the translated text comparison, separated by the | symbol: \n{translateMap}',
     ],
     ['human', '{text}'],
+    ['human', 'Please enter the translated file just pure text:'],
   ]);
 };

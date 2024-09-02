@@ -1,5 +1,5 @@
 module.exports = {
-  modelName: 'gpt-3.5-turbo',
+  modelName: 'gpt-4o-mini',
   translateMap: {
     'en-US': {
       江夏尧: 'KonghaYao',
@@ -7,7 +7,7 @@ module.exports = {
     },
   },
   markdown: {
-    entry: ['./README.zh-CN.md'],
+    entry: ['./README.zh-CN.md', './docs/*.zh-CN.md'],
     entryLocale: 'zh-CN',
     entryExtension: '.zh-CN.md',
     outputLocales: ['en-US'],
