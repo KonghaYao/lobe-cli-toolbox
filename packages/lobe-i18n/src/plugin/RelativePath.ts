@@ -4,7 +4,7 @@ function correctRelativePath(fromPath: string, toPath: string, relativePath: str
   const fromDir = path.dirname(fromPath);
   const absolutePath = path.resolve(fromDir, relativePath);
   const toDir = path.dirname(toPath);
-  const correctedRelativePath = path.relative(toDir, absolutePath);
+  const correctedRelativePath = path.relative(toDir, absolutePath).replaceAll('\\', '/');
   if (!correctedRelativePath.startsWith('.')) {
     return './' + correctedRelativePath;
   }

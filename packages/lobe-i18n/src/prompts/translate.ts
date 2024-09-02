@@ -7,6 +7,7 @@ export const promptJsonTranslate = (reference: string = DEFAULT_REFERENCE) => {
     from: string;
     json: string;
     to: string;
+    translateMap: string;
   }>([
     [
       'system',
@@ -18,7 +19,13 @@ export const promptJsonTranslate = (reference: string = DEFAULT_REFERENCE) => {
         .filter(Boolean)
         .join('\n'),
     ],
+    [
+      'system',
+      'Here is the translated text comparison, separated by the | symbol: \n{translateMap}',
+    ],
+    ['human', 'I will give you the original json: '],
     ['human', '{json}'],
+    ['human', 'Ensure the output remains a valid JSON string without markdown code block.'],
   ]);
 };
 
@@ -36,7 +43,7 @@ export const promptStringTranslate = (reference: string = DEFAULT_REFERENCE) => 
       [
         `Translate the markdown file from {from} to {to} according to the BCP 47 standard`,
         `Here are some reference to help with better translation.  ---${reference}---`,
-        `Make sure the output remains a valid markdown file.`,
+        `Ensure the output remains a valid Markdown string without markdown code block. Change all unquoted string type(not number or Date type) in the YAML frontmatter to double quotes string type. `,
       ]
         .filter(Boolean)
         .join('\n'),
@@ -45,7 +52,7 @@ export const promptStringTranslate = (reference: string = DEFAULT_REFERENCE) => 
       'system',
       'Here is the translated text comparison, separated by the | symbol: \n{translateMap}',
     ],
+    ['system', 'I will give you the original text: '],
     ['human', '{text}'],
-    ['human', 'Please enter the translated file just pure text:'],
   ]);
 };

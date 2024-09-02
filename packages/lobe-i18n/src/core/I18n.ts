@@ -192,6 +192,7 @@ export class I18n {
       from,
       json: {},
       to,
+      translateMap: this.translateLocaleService.getTranslateMap(to),
     });
     const splitJson = splitJsonToChunks(this.config, entry, target, JSON.stringify(prompt));
 

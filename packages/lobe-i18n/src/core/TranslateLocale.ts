@@ -11,7 +11,7 @@ export class TranslateLocale {
   private model: ChatOpenAI;
   private config: I18nConfig;
   private isJsonMode: boolean;
-  promptJson: ChatPromptTemplate<{ from: string; json: string; to: string }>;
+  promptJson: ChatPromptTemplate<{ from: string; json: string; to: string; translateMap: string }>;
   promptString: ChatPromptTemplate<{
     from: string;
     fromPath: string;
@@ -38,6 +38,11 @@ export class TranslateLocale {
     this.isJsonMode = Boolean(this.config?.experimental?.jsonMode);
   }
 
+  getTranslateMap(to: string) {
+    return Object.entries(this.config.translateMap?.[to] ?? {})
+      .map((i) => i.join('|'))
+      .join('\n');
+  }
   async runByString({
     from,
     to,
@@ -52,9 +57,7 @@ export class TranslateLocale {
     toPath: string;
   }): Promise<string | any> {
     try {
-      const translateMap = Object.entries(this.config.translateMap?.[to] ?? {})
-        .map((i) => i.join('|'))
-        .join('\n');
+      const translateMap = this.getTranslateMap(to);
       const formattedChatPrompt = await this.promptString.formatMessages({
         from: from || this.config.entryLocale,
         fromPath,
@@ -88,6 +91,7 @@ export class TranslateLocale {
         from: from || this.config.entryLocale,
         json: JSON.stringify(json),
         to,
+        translateMap: this.getTranslateMap(to),
       });
 
       const res = await this.model.invoke(
