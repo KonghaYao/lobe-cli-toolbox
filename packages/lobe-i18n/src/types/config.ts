@@ -65,6 +65,10 @@ export type MarkdownModeFunction = (config: {
 
 export interface MarkdownConfig {
   /**
+   * @description afterTranslate function to modify the translated result
+   */
+  afterTranslate?: (result: string) => string;
+  /**
    * @description The entry file or folder, support glob
    */
   entry: string[];

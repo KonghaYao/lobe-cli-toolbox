@@ -92,6 +92,9 @@ class TranslateMarkdown {
           }
         },
       });
+      if (this.markdownConfig.afterTranslate && data?.result) {
+        data.result = this.markdownConfig.afterTranslate(data?.result);
+      }
       clear();
       const outputPath = relative('.', item.filename);
       if (data?.result && Object.keys(data.result).length > 0) {
